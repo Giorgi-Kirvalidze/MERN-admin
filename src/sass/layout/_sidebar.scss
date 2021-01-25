@@ -1,0 +1,25 @@
+.sidebar{
+    grid-column: 1/2;
+    grid-row:1/13;
+    border:2px solid #eeeeee;
+    font-size: 1.3rem;
+    padding-top:11.5rem;
+    &__item{
+        background-color: #121013;
+        border:2.5px solid #eeeeee;
+
+        padding: .5rem 1rem;
+        margin:1rem;
+        list-style: none;
+        border-radius: 5%;
+        transition: all .2s;
+        &-link{
+            text-decoration: none;
+            color:#eeeeee;
+        }
+        &-link:hover{
+            color:#f1aa9b;
+        }
+
+    }
+}

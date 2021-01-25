@@ -1,0 +1,30 @@
+.nav{
+    grid-column:2/13;
+    grid-row:1/2;
+    background-color: #a6a9b6;    
+    font-size: 1.2rem;
+    &__list{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: end;        
+        padding:2rem;        
+    }
+    &__item{
+        border:2.5px solid #a6a9b6 ;
+        background-color: #121013;
+        list-style: none;
+        padding:.5rem 1rem;
+        margin-right:1rem;
+        border-radius: 10%;
+        transition: all .2s;
+        &-link{
+            text-decoration: none;
+            color:#eeeeee;
+        }
+        &-link:hover{
+            color:#f1aa9b;
+        }
+
+    }
+}

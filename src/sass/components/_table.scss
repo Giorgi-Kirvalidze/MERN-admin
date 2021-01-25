@@ -1,0 +1,14 @@
+.table{
+    grid-row:3/12;
+    grid-column: 3/12;
+
+}
+
+tr{
+    background-color: #eeeeee;
+    margin:1rem;    
+}
+td{
+    border:2px solid gray;
+    text-align: center;
+}
