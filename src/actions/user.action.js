@@ -1,8 +1,9 @@
 import axios from '../helpers/axios'
 import {
     SIGNIN_REQUEST, SIGNIN_SUCCESS, SIGNIN_FAILURE,
-    SIGNUP_REQUEST, SIGNUP_SUCCESS,
-    SIGNUP_FAILURE, SIGNOUT_REQUEST, SIGNOUT_SUCCESS, SIGNOUT_FAILURE
+    SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
+    SIGNOUT_REQUEST, SIGNOUT_SUCCESS, SIGNOUT_FAILURE,
+    GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS, GET_USER_SUCCESS, GET_USER_REQUEST, GET_USER_FAILURE
 } from '../actions/types'
 
 
@@ -54,8 +55,6 @@ export const isUserSignedIn = () => async dispatch => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user')
     if (token) {
-        //const user = localStorage.getItem('user')
-        //JSON.parse(user)
         dispatch({
             type: SIGNIN_SUCCESS,
             payload: {
@@ -79,5 +78,43 @@ export const signout = () => async dispatch => {
         dispatch({ type: SIGNOUT_SUCCESS, payload: res.data.message })
     } else {
         dispatch({ type: SIGNOUT_FAILURE, payload: res.data.message })
+    }
+}
+
+export const getUsers = () => async dispatch => {
+    dispatch({ type: GET_USERS_REQUEST })
+    try {
+        const res = await axios.get('users')
+        if (res.status === 200) {
+            dispatch({ type: GET_USERS_SUCCESS, payload: { users: res.data } })
+        } else {
+            if (res.status === 400) {
+                dispatch({ type: GET_USERS_FAILURE, payload: { error: res.data.error } })
+            }
+        }
+    } catch (error) {
+        dispatch({ type: GET_USERS_FAILURE, payload: { error: error.response.data.message } })
+    }
+}
+export const updateUser = (id, updatedUser) => async dispatch => {
+    dispatch({ type: UPDATE_USER_REQUEST })
+    const res = await axios.patch(`users/${id}`, updatedUser)
+    if (res.status === 200) {
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: { updatedUser: res.data.updateUser } })
+    } else {
+        dispatch({ type: UPDATE_USER_FAILURE })
+    }
+}
+
+export const getUser = (id) => async dispatch => {
+    // dispatch({ type: GET_USER_REQUEST })
+    const res = await axios.get(`users/${id}`)
+    if (res.status === 200) {
+        const { user } = res.data
+        dispatch({ type: GET_USER_SUCCESS, payload: { user: user } })
+    } else {
+        if (res.status === 400) {
+            dispatch({ type: GET_USER_FAILURE, payload: { error: res.data.error } })
+        }
     }
 }

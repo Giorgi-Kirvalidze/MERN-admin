@@ -5,7 +5,7 @@ const Input = ({ className, onChange, label, value, type, placeholder, errorMess
         <>
             <div>
                 <label>{label}</label>
-                {errorMessage == '' ? null : <small className="error">{errorMessage}</small>}
+                {errorMessage === '' ? null : <small className="error">{errorMessage}</small>}
             </div>
 
             <input

@@ -20,9 +20,10 @@ const Signup = () => {
     const user = useSelector(state => state.user)
     const error = useSelector(state => state.user.error)
 
-
     if (error) {
-        emailErr.push(error)
+        if (!error.includes('მოხმარებლის სახელი ან პაროლი არასწორია')) {
+            emailErr.push(error)
+        }
     }
 
     useEffect(() => {

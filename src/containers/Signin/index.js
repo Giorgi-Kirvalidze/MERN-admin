@@ -10,12 +10,14 @@ const Signin = () => {
     const [password, setPassword] = useState('')
     const [emailErr, setEmailErr] = useState([])
     const [passwordErr, setPasswordErr] = useState([])
+    const [serverErr, setServerErr] = useState([])
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const error = useSelector(state => state.user.error)
 
     if (error) {
-        emailErr.push(error)
+        if (!serverErr.includes(error) && error !== 'მითითებული ემაილი რეგისტრირებულია')
+            serverErr.push(error)
     }
     const handleSignin = (e) => {
         e.preventDefault()
@@ -58,6 +60,7 @@ const Signin = () => {
         <div className="home">
             <Layout sidebar>
                 <form onSubmit={handleSignin} className="form">
+                    <small className="error">{serverErr}</small>
                     <Input className="form__input" errorMessage={emailErr[0]} type="text" label="Email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)} />
                     <Input className="form__input" errorMessage={passwordErr[0]} type="password" label="Password" placeholder="Enter your password" value={password} onChange={e => setPassword(e.target.value)} />
                     <button className="btn" type="submit">Sign in</button>

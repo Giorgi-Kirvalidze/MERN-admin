@@ -1,4 +1,4 @@
-import { SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE, SIGNIN_FAILURE, SIGNIN_SUCCESS, SIGNIN_REQUEST, SIGNOUT_REQUEST, SIGNOUT_FAILURE, SIGNOUT_SUCCESS } from '../actions/types'
+import { SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE, SIGNIN_FAILURE, SIGNIN_SUCCESS, SIGNIN_REQUEST, SIGNOUT_REQUEST, SIGNOUT_FAILURE, SIGNOUT_SUCCESS, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE } from '../actions/types'
 
 const initState = {
     token: null,
@@ -6,13 +6,24 @@ const initState = {
         firstName: '',
         lastName: '',
         email: '',
-        picture: ''
+        password: '',
+        number: '',
+        role: ''
     },
     message: '',
     loading: false,
     authenticate: false,
     authenticating: false,
-    error: null
+    error: null,
+    users: [],
+    getUser: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        number: '',
+        role: ''
+    }
 }
 
 export default (state = initState, action) => {
@@ -44,6 +55,24 @@ export default (state = initState, action) => {
             break
         case SIGNOUT_FAILURE:
             state = { ...state, error: action.payload.error, loading: false }
+            break
+        case GET_USERS_REQUEST:
+            state = { ...state, loading: true, }
+            break
+        case GET_USERS_SUCCESS:
+            state = { ...state, loading: false, users: action.payload.users }
+            break
+        case GET_USERS_FAILURE:
+            state = { ...state, loading: false }
+            break
+        // case GET_USER_REQUEST:
+        //     state = { ...state, loading: true }
+        //     break
+        case GET_USER_SUCCESS:
+            state = { ...state, loading: false, getUser: action.payload.user }
+            break
+        case GET_USER_FAILURE:
+            state = { ...state, loading: false }
             break
     }
     return state

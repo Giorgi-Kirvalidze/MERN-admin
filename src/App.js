@@ -6,21 +6,33 @@ import Products from './containers/Products';
 import Orders from './containers/Orders';
 import Signin from './containers/Signin';
 import Signup from './containers/Signup';
+import Users from './containers/Users';
+
 import ProtectedRoute from './components/ProtectedRoutes'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { isUserSignedIn } from './actions';
+import { getUser, getUsers, isUserSignedIn } from './actions';
 
 
 function App() {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.user.users)
+
 
   useEffect(() => {
     if (!user.authenticate) {
-      dispatch(isUserSignedIn())
+      dispatch(isUserSignedIn());
     }
-  }, [])
+
+  }, [dispatch, user.authenticate]);
+
+  useEffect(() => {
+    if (user.authenticate) {
+      dispatch(getUsers())
+    }
+  }, [dispatch, user.authenticate])
+
 
   return (
     <div className="container">
@@ -29,6 +41,7 @@ function App() {
         <ProtectedRoute path="/category" component={Category} />
         <ProtectedRoute path="/products" component={Products} />
         <ProtectedRoute path="/orders" component={Orders} />
+        <ProtectedRoute path="/users" component={Users} />
 
 
         <Route path="/signin" component={Signin} />

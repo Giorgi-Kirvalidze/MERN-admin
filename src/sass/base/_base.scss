@@ -39,3 +39,34 @@ body {
     font-size: 1.2rem;
     letter-spacing: .5px;
 }
+
+.usersForm{
+    position: absolute;
+    left:50%;
+    top:55%;
+    transform:translate(-50%,-50%);
+    background-color: #557174;
+    border:3px solid #ffffff ;
+    border-radius:10px;
+    height:51.7rem;
+    width:50rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.3rem;
+    color:#eeeeee;
+    box-shadow:  0 0  5rem #121013;
+    &__input{
+        padding:1.2rem 2rem;
+        border-radius:2rem;
+    }
+    :not(:last-child){
+        margin-bottom: .5rem;
+    }
+    .btn{
+        padding:1rem 1.5rem;
+        margin:1rem;
+    }
+   
+}

@@ -1,14 +1,25 @@
 .table{
     grid-row:3/12;
     grid-column: 3/12;
-
+    color:#ffffff;
 }
 
+th{
+    font-weight: 300;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
 tr{
-    background-color: #eeeeee;
-    margin:1rem;    
+    background-color: #557174;
+    margin:1rem; 
+    &:nth-child(odd){background-color: #393e46;}
+    
 }
 td{
     border:2px solid gray;
     text-align: center;
+    .btn{
+        padding:.5rem 1.5rem;
+    }
 }
+
