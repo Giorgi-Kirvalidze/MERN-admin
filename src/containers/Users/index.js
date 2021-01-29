@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../../actions'
+import { getUser, updateUser } from '../../actions'
 import Layout from '../../components/Layout'
 import Input from '../../components/UI'
 
 
 const Users = () => {
     const users = useSelector(state => state.user.users)
-    const currentUser = useSelector(state => state.user.getUser)
     const [show, setShow] = useState(false)
+
     const dispatch = useDispatch()
     const [formData, setFormData] = useState({
+        id: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -19,11 +20,17 @@ const Users = () => {
         number: ''
     })
 
-
-
+    useEffect(() => {
+        console.log('mounted')
+    })
+    function refreshPage() {
+        window.location.reload(false);
+    }
     const handleSubmit = (e) => {
-        const updatedUser = formData
-        console.log(updatedUser)
+        e.preventDefault()
+        dispatch(updateUser(formData.id, formData))
+        setShow(show => !show)
+        //refreshPage()
     }
 
 
@@ -84,36 +91,22 @@ const Users = () => {
     }
 
 
-
-
-
-
     const handleClick = (id) => {
+        const user = users.find(user => user._id === id)
         setShow(show => !show)
-        dispatch(getUser(id))
+        if (show === false) {
+            setFormData({
+                ...formData,
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                password: user.password,
+                email: user.email,
+                role: user.role,
+                number: user.number
+            })
+        }
     }
-    // const handleClick = (id, e) => {
-    //     //   ; (function () { setShow(show => !show) })(); (function () { dispatch(getUser(id)) })()
-    //     // console.log(show),
-    //     // console.log('re-render'),
-
-
-    //     dispatch(getUser(id))
-
-    // }
-
-
-    // dispatch(getUser(id))
-    // e.preventDefault()
-    // setFormData({
-    //     ...formData,
-    //     firstName: currentUser.firstName,
-    //     lastName: currentUser.lastName,
-    //     password: currentUser.password,
-    //     email: currentUser.email,
-    //     role: currentUser.role,
-    //     number: currentUser.number
-    // })
 
     return (
         <div className="home">
@@ -137,6 +130,7 @@ const Users = () => {
                             users.length > 0 ?
                                 users.map(user =>
                                     <tr key={user._id} >
+                                        <td>{user._id}</td>
                                         <td>{user.firstName}</td>
                                         <td>{user.lastName}</td>
                                         <td>{user.email}</td>

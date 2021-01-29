@@ -1,4 +1,4 @@
-import { SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE, SIGNIN_FAILURE, SIGNIN_SUCCESS, SIGNIN_REQUEST, SIGNOUT_REQUEST, SIGNOUT_FAILURE, SIGNOUT_SUCCESS, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE } from '../actions/types'
+import { SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE, SIGNIN_FAILURE, SIGNIN_SUCCESS, SIGNIN_REQUEST, SIGNOUT_REQUEST, SIGNOUT_FAILURE, SIGNOUT_SUCCESS, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS } from '../actions/types'
 
 const initState = {
     token: null,
@@ -65,15 +65,19 @@ export default (state = initState, action) => {
         case GET_USERS_FAILURE:
             state = { ...state, loading: false }
             break
-        // case GET_USER_REQUEST:
-        //     state = { ...state, loading: true }
-        //     break
+        case GET_USER_REQUEST:
+            state = { ...state, loading: true }
+            break
         case GET_USER_SUCCESS:
             state = { ...state, loading: false, getUser: action.payload.user }
             break
         case GET_USER_FAILURE:
             state = { ...state, loading: false }
             break
+        case UPDATE_USER_SUCCESS:
+
+            const users = state.users.map((user) => user._id === action.payload.updatedUser._id ? action.payload.updatedUser : user)
+            state = { ...state, users }
     }
     return state
 }

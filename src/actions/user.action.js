@@ -98,23 +98,28 @@ export const getUsers = () => async dispatch => {
 }
 export const updateUser = (id, updatedUser) => async dispatch => {
     dispatch({ type: UPDATE_USER_REQUEST })
-    const res = await axios.patch(`users/${id}`, updatedUser)
-    if (res.status === 200) {
-        dispatch({ type: UPDATE_USER_SUCCESS, payload: { updatedUser: res.data.updateUser } })
-    } else {
+    try {
+        const res = await axios.patch(`users/${id}`, updatedUser)
+        if (res.status === 200) {
+            console.log(`i am in status 200 , and here is res.data ${res.data}`)
+            dispatch({ type: UPDATE_USER_SUCCESS, payload: { updatedUser: res.data.updatedUser } })
+        } else {
+            dispatch({ type: UPDATE_USER_FAILURE })
+        }
+    } catch (e) {
         dispatch({ type: UPDATE_USER_FAILURE })
     }
-}
 
+}
 export const getUser = (id) => async dispatch => {
-    // dispatch({ type: GET_USER_REQUEST })
+    dispatch({ type: GET_USER_REQUEST })
     const res = await axios.get(`users/${id}`)
     if (res.status === 200) {
-        const { user } = res.data
-        dispatch({ type: GET_USER_SUCCESS, payload: { user: user } })
+        dispatch({ type: GET_USER_SUCCESS, payload: { user: res.data.user } })
     } else {
         if (res.status === 400) {
             dispatch({ type: GET_USER_FAILURE, payload: { error: res.data.error } })
         }
     }
 }
+
